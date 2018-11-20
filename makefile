@@ -10,3 +10,5 @@ parse_args.o: parse_args.c
 	gcc -c parse_args.c
 run: all
 	./shell
+clean:
+	rm *~* \#*\# shell *.o
