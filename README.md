@@ -13,3 +13,5 @@ you can quit the shell (i think)
 i think quitting the shell segfaults on occasion...
 
 # CONJUNCTION JUNCTION?
+What in truth is your function?
+Dost thou hooketh up yon words, yon phrases and clauses?
