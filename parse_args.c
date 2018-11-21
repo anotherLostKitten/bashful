@@ -5,44 +5,28 @@
 #include "execute.h"
 
 int parse_args(char* buff){
-  int spaces = 0;
-  for(int i=0;buff[i];i++){
-    if(buff[i]==' ')
-      spaces++;
-  }
-  char** args = malloc((spaces+1)*sizeof(char*));
-  int fewerspaces = 0;
-  char* ptr = buff;
-  args[0]=ptr;
-  for(int c = 1; c<=spaces-fewerspaces;c++){
-    while(*(ptr++)!=' ') ;
-    *(ptr-1)=0;
-    args[c]=ptr;
-    if(*(ptr)=='"'){
-      ptr++;
-      char indicator = 1;
-      args[c]++;
-      while(*(ptr++)&&indicator){
-	switch(*ptr){
-	case ' ':
-	  fewerspaces++;
-	  break;
-	case '"':
-	  ptr[0]=0;
-	  if(c<spaces-fewerspaces)
-	    ptr=&ptr[2];
-	  indicator = 0;
-	  break;
-	}
+  for(char*i;i=strsep(&buff,";");){
+    int spaces = 0;
+    for(int j=0;i[j];j++)
+      if(i[j]==' '||i[j]==';'){
+	spaces++;
+	for(;i[j]==' '&&i[j+1];j++);
       }
+    char**args = malloc((spaces+1)*sizeof(char*)),**curarg = args;
+    for(char*j=i;j;){
+      for(;*j==' ';j++);
+      if(!*j)
+	break;
+      if(*j=='"'){
+	j++;
+	*curarg++=strsep(&j,"\"");
+      }else{
+	*curarg++=strsep(&j," ");
+      }
+      printf("[%s]\n",*(curarg-1));
     }
+    if(execute(spaces+1,args)==-1)
+      return -1;
   }
-  char** temp = malloc((spaces+1-fewerspaces)*sizeof(char*));
-  for(int i = 0;i<=spaces+fewerspaces;i++)
-    temp[i]=args[i];
-  free(args);
-  args=temp;
-  if(execute(spaces+1,args))
-    return -1;
   return 0;
 }
