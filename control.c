@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include "parse_args.h"
+
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -14,6 +16,8 @@
 
 
 int control(){
+    remove(".shellhistory");
+    int fd = open(".shellhistory",O_WRONLY|O_CREAT,00600);
     while(1){
         char strbuff[1024];
         char pwdbuff[1024];
@@ -21,8 +25,11 @@ int control(){
         printf(ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET,pwdbuff);
         fflush(stdout);
         fgets(strbuff,1024,stdin);
+        write(fd,strbuff,strlen(strbuff));
         strbuff[strcspn(strbuff, "\n")] = 0;//remove trailing newline from fgets
-        if(parse_args(strbuff))
+        if(parse_args(strbuff)){
+            remove(".shellhistory");
             return 0;
+        }
     }
 }
