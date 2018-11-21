@@ -8,6 +8,9 @@
 void sighandler(int signo);
 
 int execute(int argc,char** argv){
+    if(!argc)
+        return 0;
+
     if(!strcmp(argv[0],"exit")){
         return -1;
     }
@@ -17,6 +20,12 @@ int execute(int argc,char** argv){
     else{
         int inf = 0;
         int pid;
+        char newargv = 0;
+        if(!strcmp(argv[argc-1],"&")){
+            argv[--argc] = NULL;
+            newargv = 1;
+        }
+        
         if(!(pid = fork())){
             int retval = execvp(argv[0],argv);
             if(retval) 
@@ -26,7 +35,10 @@ int execute(int argc,char** argv){
         else{
             signal(SIGINT,sighandler);
         }
-        wait(&inf);
+        if(!newargv)
+            waitpid(-1,&inf,0);
+        else
+            waitpid(-1,&inf,WNOHANG);
     }
     return 0;
 }
