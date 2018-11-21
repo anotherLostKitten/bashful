@@ -20,10 +20,9 @@ int parse_args(char* buff){
       if(*j=='"'){
 	j++;
 	*curarg++=strsep(&j,"\"");
-      }else{
+      }else
 	*curarg++=strsep(&j," ");
-      }
-      printf("[%s]\n",*(curarg-1));
+      //printf("[%s]\n",*(curarg-1));
     }
     if(execute(spaces+1,args)==-1)
       return -1;
