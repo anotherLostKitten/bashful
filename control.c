@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "parse_args.h"
-
+#include "input.h"
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -18,13 +18,13 @@
 int control(){
     remove(".shellhistory");
     int fd = open(".shellhistory",O_WRONLY|O_CREAT,00600);
+    char* strbuff;
     while(1){
-        char strbuff[1024];
         char pwdbuff[1024];
         getcwd(pwdbuff,1024);
         printf(ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET,pwdbuff);
         fflush(stdout);
-        fgets(strbuff,1024,stdin);
+        strbuff = input();
         write(fd,strbuff,strlen(strbuff));
         strbuff[strcspn(strbuff, "\n")] = 0;//remove trailing newline from fgets
         if(parse_args(strbuff)){
@@ -33,3 +33,4 @@ int control(){
         }
     }
 }
+

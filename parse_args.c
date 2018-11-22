@@ -24,7 +24,7 @@ int parse_args(char* buff){
 	*curarg++=strsep(&j," ");
       //printf("[%s]\n",*(curarg-1));
     }
-    if(execute(spaces+1,args)==-1)
+    if(execute(args)==-1)
       return -1;
   }
   return 0;

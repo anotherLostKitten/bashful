@@ -7,9 +7,10 @@
 #include <signal.h> 
 void sighandler(int signo);
 
-int execute(int argc,char** argv){
-    if(!argc)
+int execute(char** argv){
+    if(!argv[0])
         return 0;
+    int argc = sizeof(argv)/sizeof(argv[0]);
 
     if(!strcmp(argv[0],"exit")){
         return -1;
