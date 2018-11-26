@@ -9,6 +9,7 @@ struct node{
 struct doubly_ll{
     int length;
     struct node* target;
+    char flag;
 };
 struct node* char2node(char c);
 void add_next(struct doubly_ll* self, char toinsert);

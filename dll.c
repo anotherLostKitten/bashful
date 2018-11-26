@@ -6,6 +6,7 @@ struct doubly_ll* initdll(){
     struct doubly_ll* dll = malloc(sizeof(struct doubly_ll));
     dll->length = 1;
     dll->target = char2node(0);
+    dll->flag = 0;
 }
 
 void add_next(struct doubly_ll* self, char toinsert){

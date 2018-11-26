@@ -1,6 +1,6 @@
 #ifndef INPUT
 #define INPUT
-void horizontal(int i);
-void vertical(int i);
+int horizontal(int i);
+int vertical(int i);
 char* input();
 #endif

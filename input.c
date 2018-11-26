@@ -25,13 +25,13 @@ void horizontal(int direct,struct doubly_ll* dll){
 
 char* input(){
     struct doubly_ll* dll = initdll();
+    setvbuf(stdin, NULL, _IONBF, 0);
     while(1){
         char c = getchar();
-        fflush(stdin);
         switch(c){
             case 27:
-                if(getchar()=='['&&!fflush(stdin)){
-                    switch(getchar()+fflush(stdin)){
+                if(getchar()=='['){
+                    switch(getchar()){
                         case 'A':
                             vertical(1);
                             break;
@@ -45,8 +45,6 @@ char* input(){
                             horizontal(0,dll);
                             break;
                     }
-                    printf("\b\b\b   \b\b\b");
-                    fflush(stdin);
                 }
                 break;
             case '\n':
@@ -59,5 +57,6 @@ char* input(){
                 break;
         }
     }
+    setvbuf(stdin, NULL, _IOLBF, 0);
 }
 
