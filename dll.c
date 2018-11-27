@@ -33,6 +33,7 @@ void remove_prev(struct doubly_ll* self){
         n->prev = p;
     free(self->target);
     self->target = p;
+    printf("[%s]\n",decompose_dll(self));
     (self->length)--;
 }
 
@@ -48,10 +49,9 @@ char* decompose_dll(struct doubly_ll* rotting){
     struct node* nptr = rotting->target;
     while(nptr->prev->c != 0)
         nptr = nptr->prev;
-    char* remains = malloc(rotting->length);
+    char* remains = calloc(rotting->length,sizeof(char));
     int i = 0;
     for(;nptr;i++,nptr=nptr->next) 
         remains[i] = nptr->c;
-    remains[i] = 0;
     return remains;
 }

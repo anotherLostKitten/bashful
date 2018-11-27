@@ -26,9 +26,7 @@ int control(){
         fflush(stdout);
         strbuff = input();
         write(fd,strbuff,strlen(strbuff));
-        strbuff[strcspn(strbuff, "\n")] = 0;//remove trailing newline from fgets
         if(parse_args(strbuff)){
-            remove(".shellhistory");
             return 0;
         }
     }

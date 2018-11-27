@@ -13,6 +13,8 @@ I have already made a commit and push to this repo using only the shell... the o
 
 # ALMOST FEATURES
 
+Okay now this is epic: you can go backwards and forwards, but it doesn't really change how the text is displayed, and also backspaces are uber broken but yea.
+
 # WE PRETEND THESE ARE FEATURES
 
 i think quitting the shell segfaults on occasion...
