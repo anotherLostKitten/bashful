@@ -12,6 +12,8 @@ int execute(char** argv){
         return 0;
     int argc = sizeof(argv)/sizeof(argv[0]);
 
+	//for(char**b=argv;*b;b++)printf("[%s]\n",*b);
+	
     if(!strcmp(argv[0],"exit")){
         return -1;
     }
