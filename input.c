@@ -29,6 +29,7 @@ void horizontal(int direct,struct doubly_ll* dll){
 
 char* input(){
     struct doubly_ll* dll = initdll();
+    struct doubly_ll* q;
     while(1){
         char c = getch();
         switch(c){
@@ -55,23 +56,28 @@ char* input(){
                 putch('\n');
                 return decompose_dll(dll);
             case 127:
-                if(dll->length==1) continue;
+                if(dll->length==1 || !(dll->target->prev)) continue;
                 remove_prev(dll);
-                struct doubly_ll* q = forward_str(dll);
-                printf("\033[0J\b \b");
+                q = forward_str(dll);
+                printf("\033[1D\033[0J");
                 fflush(stdout);
                 putstr(decompose_dll(q));
-                printf("\033[%dD",q->length-1);
+                printf("\033[%dD",q->length);
                 if(!q->target->next) printf("\033[1C");
                 fflush(stdout);
                 freeall(q);
                 break;
             default:
-                putch(c);
-                for(int i = 0;i<dll->length;i++)
-                   putstr("\b \b");
                 add_next(dll,c);
-                putstr(decompose_dll(dll));
+                q = forward_str(dll);
+                putchar(c);
+                printf("\033[0J");
+                fflush(stdout);
+                putstr(decompose_dll(q));
+                printf("\033[%dD",q->length);
+                if(!q->target->next) printf("\033[1C");
+                fflush(stdout);
+                freeall(q);
                 break;
         }
     }
