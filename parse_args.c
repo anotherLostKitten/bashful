@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include "execute.h"
+
 
 int parse_args(char*buff){
 	char**carg=malloc(256),**argv=carg,*cur=buff;
@@ -31,12 +33,20 @@ int parse_args(char*buff){
 			if(*buff)
 				*carg++=buff;
 			buff=cur;
-		}else if(*cur=='|'||*cur=='<'){
-			char t=*cur;
+		}else if(*cur=='<'){
+			*cur=0;
+			int f = open(*(carg-1),O_CREAT|O_WRONLY|O_APPEND);
+			int tmp = dup(STDOUT_FILENO);
+			dup2(f,STDOUT_FILENO);
+			parse_args(cur+1);
+			close(f);
+			dup2(tmp,STDOUT_FILENO);
+			return 0;
+		}else if(*cur=='|'){
 			*cur=0;
 			if(*buff)
 				*carg++=buff;
-			*carg++=t=='|'?"|":"<";
+			*carg++="|";
 			buff=cur+1;
 		}else
 			cur++;
