@@ -10,7 +10,6 @@ struct doubly_ll* initdll(){
     struct doubly_ll* dll = malloc(sizeof(struct doubly_ll));
     dll->length = 1;
     dll->target = char2node(0);
-    dll->flag = 0;
 }
 
 void add_next(struct doubly_ll* self, char toinsert){
@@ -50,11 +49,28 @@ struct node* char2node(char c){
 
 char* decompose_dll(struct doubly_ll* rotting){
     struct node* nptr = rotting->target;
-    while(nptr->prev->c != 0)
+    while(nptr->prev)
         nptr = nptr->prev;
+    nptr = nptr->next;
     char* remains = calloc(rotting->length,sizeof(char));
+    if(!nptr) return remains;
     int i = 0;
     for(;nptr;i++,nptr=nptr->next) 
         remains[i] = nptr->c;
     return remains;
+}
+
+struct doubly_ll* forward_str(struct doubly_ll* self){
+    struct node* targ = self->target->next;
+    struct doubly_ll* temp = initdll();
+    for(;targ;targ = targ->next)
+        add_next(temp,targ->c);
+    return temp;
+}
+
+void freeall(struct doubly_ll* self){
+    while(self->target->next) self->target = self->target->next;
+    while(self->target->prev) remove_prev(self);
+    free(self->target);
+    free(self);
 }
