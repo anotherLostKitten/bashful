@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <termios.h>
-#include <ctype.h>
-#include <string.h>
+#include "chario.h"
 #include "dll.h"
 void seeklines(int direct,FILE* f){
     if(direct)
@@ -19,34 +17,14 @@ void vertical(int direct, struct doubly_ll* dll){
 void horizontal(int direct,struct doubly_ll* dll){
     if(direct && dll->target->next){
         dll->target = dll->target->next;
+        printf("\033[1C");
+        fflush(stdout);
     }
     else if(dll->target->prev->c != 0){
         dll->target = dll->target->prev;
+        printf("\033[1D");
+        fflush(stdout);
     }
-}
-
-int getch()
-{
-   struct termios old, new;
-   char ch;
-   tcgetattr(0, &old);
-   new=old;
-   new.c_lflag &= ~( ICANON | ECHO );
-   tcsetattr(0, TCSANOW, &new);
-   ch=getchar();
-   tcsetattr(0, TCSANOW, &old);
-   return ch;
-}
-
-void putch(char c)
-{
-   struct termios old, new;
-   tcgetattr(0, &old);
-   new=old;
-   new.c_lflag &= ~( ICANON | ECHO );
-   tcsetattr(0, TCSANOW, &new);
-   putchar(c);
-   tcsetattr(0, TCSANOW, &old);
 }
 
 char* input(){
@@ -73,16 +51,22 @@ char* input(){
                 }
                 break;
             case '\n':
+                putch('\r');
                 putch('\n');
                 return decompose_dll(dll);
             case 127:
-                if(dll->length!=1) break;
-                putch(127);
+                if(dll->length==1) continue;
                 remove_prev(dll);
+                for(int i = 0;i<dll->length;i++)
+                   putstr("\b \b");
+                putstr(decompose_dll(dll));
                 break;
             default:
                 putch(c);
                 add_next(dll,c);
+                for(int i = 0;i<dll->length-1;i++)
+                   putstr("\b \b");
+                putstr(decompose_dll(dll));
                 break;
         }
     }

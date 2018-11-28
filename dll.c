@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "dll.h"
+
+#define ANSI_BACKGROUND_CYAN     "\x1b[46m"
+#define ANSI_COLOR_RESET         "\x1b[0m"
 
 struct doubly_ll* initdll(){
     struct doubly_ll* dll = malloc(sizeof(struct doubly_ll));
@@ -33,7 +37,6 @@ void remove_prev(struct doubly_ll* self){
         n->prev = p;
     free(self->target);
     self->target = p;
-    printf("[%s]\n",decompose_dll(self));
     (self->length)--;
 }
 
