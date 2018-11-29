@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/ioctl.h>
 #include "chario.h"
 #include "dll.h"
 void seeklines(int direct,FILE* f){
@@ -17,14 +18,13 @@ void vertical(int direct, struct doubly_ll* dll){
 void horizontal(int direct,struct doubly_ll* dll){
     if(direct && dll->target->next){
         dll->target = dll->target->next;
-        printf("\033[1C");
-        fflush(stdout);
+        printf("\033[C");
     }
     else if(dll->target->prev){
         dll->target = dll->target->prev;
-        printf("\033[1D");
-        fflush(stdout);
+        printf("\033[D");
     }
+    fflush(stdout);
 }
 
 char* input(){
@@ -33,37 +33,35 @@ char* input(){
     while(1){
         char c = getch();
         switch(c){
-            case 27:
+            case '\033':
                 if(getch()=='['){
                     switch(getch()){
-                        case 'A':
+                        case 'A'://up arrow
                             vertical(1,dll);
                             break;
-                        case 'B':
-                            vertical(0,dll);
+                        case 'D'://left arrow
+                            horizontal(0,dll);
                             break;
-                        case 'C':
+                        case 'C'://right arrow
                             horizontal(1,dll);
                             break;
-                        case 'D':
-                            horizontal(0,dll);
+                        case 'B'://down arrow
+                            vertical(0,dll);
                             break;
                     }
                 }
                 break;
             case '\n':
-                putch('\r');
-                putch('\n');
+                printf("\r\n");
                 return decompose_dll(dll);
             case 127:
                 if(dll->length==1 || !(dll->target->prev)) continue;
                 remove_prev(dll);
                 q = forward_str(dll);
-                printf("\033[1D\033[0J");
-                fflush(stdout);
-                putstr(decompose_dll(q));
-                printf("\033[%dD",q->length);
-                if(!q->target->next) printf("\033[1C");
+                printf("\033[D\033[J");
+                printf("%s",decompose_dll(q));
+                printf("\033[%dD",q->length); 
+                printf("\033[1C");
                 fflush(stdout);
                 freeall(q);
                 break;
@@ -71,15 +69,13 @@ char* input(){
                 add_next(dll,c);
                 q = forward_str(dll);
                 putchar(c);
-                printf("\033[0J");
-                fflush(stdout);
-                putstr(decompose_dll(q));
-                printf("\033[%dD",q->length);
-                if(!q->target->next) printf("\033[1C");
+                printf("\033[J");
+                printf("%s",decompose_dll(q));
+                if(q->target->next)
+                    printf("\033[%dD",q->length);
                 fflush(stdout);
                 freeall(q);
                 break;
         }
     }
 }
-

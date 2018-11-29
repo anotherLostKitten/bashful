@@ -17,18 +17,6 @@ int getch()
    return ch;
 }
 
-void putch(char c)
-{
-   struct termios old, new;
-   tcgetattr(0, &old);
-   new=old;
-   new.c_lflag &= ~( ICANON | ECHO );
-   new.c_oflag &= ~(OPOST);
-   tcsetattr(0, TCSANOW, &new);
-   putchar(c);
-   tcsetattr(0, TCSANOW, &old);
-}
-
 void putstr(char* c)
 {
    struct termios old, new;
