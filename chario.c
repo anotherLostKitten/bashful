@@ -16,15 +16,3 @@ int getch()
    tcsetattr(STDIN_FILENO, TCSANOW, &old);
    return ch;
 }
-
-void putstr(char* c)
-{
-   struct termios old, new;
-   tcgetattr(0, &old);
-   new=old;
-   new.c_lflag &= ~( ICANON | ECHO );
-   new.c_oflag &= ~(OPOST);
-   tcsetattr(0, TCSANOW, &new);
-   printf("%s",c);
-   tcsetattr(0, TCSANOW, &old);
-}

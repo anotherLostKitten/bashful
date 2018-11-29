@@ -3,9 +3,8 @@
 #include "chario.h"
 #include "dll.h"
 
-struct doubly_ll* vertical(int direct, struct doubly_ll* dll){
-    FILE* f = fopen(".shellhistory","r");
-    rewind(f);
+struct doubly_ll* vertical(int direct, struct doubly_ll* dll,FILE* f){
+    printf("%d\n",ftell(f));
     char c;
     if(direct)
         while(ftell(f)!=0 && (c=getc(f))!='\n') fseek(f,-2,SEEK_CUR);
@@ -42,6 +41,8 @@ void horizontal(int direct,struct doubly_ll* dll){
 char* input(){
     struct doubly_ll* dll = initdll();
     struct doubly_ll* q;
+    FILE* fs = fopen(".shellhistory","r");
+    fseek(fs,0,SEEK_END);
     while(1){
         q = NULL;
         char c = getch();
@@ -50,7 +51,7 @@ char* input(){
                 if(getch()=='['){
                     switch(getch()){
                         case 'A'://up arrow
-                            q = vertical(1,dll);
+                            q = vertical(1,dll,fs);
                             break;
                         case 'D'://left arrow
                             horizontal(0,dll);
@@ -59,7 +60,7 @@ char* input(){
                             horizontal(1,dll);
                             break;
                         case 'B'://down arrow
-                            q = vertical(0,dll);
+                            q = vertical(0,dll,fs);
                             break;
                     }
                     if(q) dll = q;
@@ -67,6 +68,8 @@ char* input(){
                 break;
             case '\n':
                 printf("\r\n");
+                fseek(fs,0,SEEK_END);
+                fclose(fs);
                 return decompose_dll(dll);
             case 127:
                 if(dll->length==1 || !(dll->target->prev)) continue;
@@ -92,7 +95,4 @@ char* input(){
                 break;
         }
     }
-    FILE* f = fopen(".shellhistory","r");
-    fseek(f,0,SEEK_END);
-    fclose(f);
 }
