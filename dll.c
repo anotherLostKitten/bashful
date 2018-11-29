@@ -60,6 +60,13 @@ char* decompose_dll(struct doubly_ll* rotting){
     return remains;
 }
 
+struct doubly_ll* compose_dll(char* source){
+    struct doubly_ll* dll = initdll();
+    for(int i = 0;source[i+1];i++)
+        add_next(dll,source[i]);
+    return dll;
+}
+
 struct doubly_ll* forward_str(struct doubly_ll* self){
     struct node* targ = self->target->next;
     struct doubly_ll* temp = initdll();

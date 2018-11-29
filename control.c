@@ -26,6 +26,7 @@ int control(){
         fflush(stdout);
         strbuff = input();
         write(fd,strbuff,strlen(strbuff));
+        write(fd,"\n",1);
         if(parse_args(strbuff)){
             return 0;
         }
