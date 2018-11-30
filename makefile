@@ -1,5 +1,5 @@
-all: parse_args.o shell.o control.o execute.o input.o dll.o chario.o
-	gcc -o shell shell.o control.o execute.o parse_args.o input.o dll.o chario.o
+all: parse_args.o shell.o control.o execute.o input.o dll.o chario.o preparse.o
+	gcc -o shell shell.o control.o execute.o parse_args.o input.o dll.o chario.o preparse.o
 shell.o: shell.c
 	gcc -c shell.c
 control.o: control.c
@@ -14,6 +14,8 @@ dll.o: dll.c
 	gcc -c dll.c
 chario.o: chario.c
 	gcc -c chario.c
+preparse.o: preparse.c
+	gcc -c preparse.c
 run: all
 	./shell
 clean:

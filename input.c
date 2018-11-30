@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include "chario.h"
 #include "dll.h"
+#include "preparse.h"
 
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
@@ -91,7 +92,8 @@ char* input(){
                 printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
                 break;
             case '\t':
-
+                //preparse(decompose_dll(dll));
+                //tab autocompletion
                 break;
             default:
                 add_next(dll,c);
