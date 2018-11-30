@@ -17,7 +17,7 @@ Okay now this is epic: you can go backwards and forwards, but it doesn't really 
 
 # WE PRETEND THESE ARE FEATURES
 
-i think quitting the shell segfaults on occasion...
+If you hold the enter key for too long with fast key repeat the shell segfaults.
 
 # CONJUNCTION JUNCTION?
 
