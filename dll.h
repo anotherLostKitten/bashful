@@ -16,6 +16,6 @@ void remove_prev(struct doubly_ll* self);
 struct doubly_ll* initdll();
 char* decompose_dll(struct doubly_ll* rotting);
 struct doubly_ll* compose_dll(char* source);
-struct doubly_ll* forward_str(struct doubly_ll* self);
+int forward(struct doubly_ll* self);
 void freeall(struct doubly_ll* self);
 #endif

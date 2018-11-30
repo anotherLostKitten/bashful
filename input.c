@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "chario.h"
 #include "dll.h"
+
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+char pwdbuff[1024];
 
 void chline(FILE* f,char direct,char fback){
     char c;
@@ -25,10 +32,8 @@ struct doubly_ll* vertical(char direct, struct doubly_ll* dll,FILE* f){
     fflush(stdout);
     chline(f,direct,1);
     struct doubly_ll* new = compose_dll(command);
-    while(dll->target->prev && (dll->target = dll->target->prev))
-        printf("\033[D");
     freeall(dll);
-    printf("\033[J%s",decompose_dll(new));
+    printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J",pwdbuff,decompose_dll(new));
     return new;
 }
 
@@ -44,11 +49,14 @@ void horizontal(int direct,struct doubly_ll* dll){
 }
 
 char* input(){
+    getcwd(pwdbuff,1024);
     struct doubly_ll* dll = initdll();
     struct doubly_ll* q;
     FILE* fs = fopen(".shellhistory","r");
     fseek(fs,-2,SEEK_END);
     char gone_back_flag = 0;
+    struct stat st;
+    stat(".shellhistory", &st);
     while(1){
         char c = getch();
         switch(c){
@@ -56,7 +64,7 @@ char* input(){
                 if(getch()=='['){
                     switch(getch()){
                         case 'A'://up arrow
-                            dll = vertical(1,dll,fs);
+                            if(st.st_size) dll = vertical(1,dll,fs);
                             gone_back_flag = 1;
                             break;
                         case 'D'://left arrow
@@ -80,18 +88,14 @@ char* input(){
             case 127:
                 if(dll->length==1 || !(dll->target->prev)) continue;
                 remove_prev(dll);
-                q = forward_str(dll);
-                printf("\033[D\033[J%s\033[%dD\033[1C",decompose_dll(q),q->length);
-                freeall(q);
+                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
+                break;
+            case '\t':
+
                 break;
             default:
                 add_next(dll,c);
-                q = forward_str(dll);
-                putchar(c);
-                printf("\033[J%s",decompose_dll(q));
-                if(q->target->next)
-                    printf("\033[%dD",q->length);
-                freeall(q);
+                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
                 break;
         }
         fflush(stdout);

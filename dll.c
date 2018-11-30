@@ -51,8 +51,7 @@ char* decompose_dll(struct doubly_ll* rotting){
     nptr = nptr->next;
     char* remains = calloc(rotting->length,sizeof(char));
     if(!nptr) return remains;
-    int i = 0;
-    for(;nptr;i++,nptr=nptr->next) 
+    for(int i = 0;nptr;i++,nptr=nptr->next) 
         remains[i] = nptr->c;
     return remains;
 }
@@ -64,12 +63,11 @@ struct doubly_ll* compose_dll(char* source){
     return dll;
 }
 
-struct doubly_ll* forward_str(struct doubly_ll* self){
-    struct node* targ = self->target->next;
-    struct doubly_ll* temp = initdll();
-    for(;targ;targ = targ->next)
-        add_next(temp,targ->c);
-    return temp;
+int forward(struct doubly_ll* self){
+    struct node* targ = self->target;
+    int i = 0;
+    for(;targ->next;targ = targ->next) i++;
+    return i-1;
 }
 
 void freeall(struct doubly_ll* self){
