@@ -3,9 +3,6 @@
 #include <string.h>
 #include "dll.h"
 
-#define ANSI_BACKGROUND_CYAN     "\x1b[46m"
-#define ANSI_COLOR_RESET         "\x1b[0m"
-
 struct doubly_ll* initdll(){
     struct doubly_ll* dll = malloc(sizeof(struct doubly_ll));
     dll->length = 1;
