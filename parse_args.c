@@ -8,7 +8,7 @@
 
 
 int parse_args(char*buff){
-	char**carg=malloc(256),**argv=carg,*cur=buff;
+	char**carg=malloc(1024),**argv=carg,*cur=buff;
 	while(*buff){
 		if(!*cur){
 			if(*buff)
@@ -25,37 +25,33 @@ int parse_args(char*buff){
 			if(*buff)
 				*carg++=buff;
 			*carg=0;
-			if(execute(argv)==-1)
-				return -1;
-			else
-				return parse_args(cur+1);
+			if(execute(argv)==-1){
+			  free(argv);
+			  return -1;
+			}else
+			  return parse_args(cur+1);
 		}else if(*cur==' '){
-			for(;*cur==' ';*cur++=0);
-			if(*buff)
-				*carg++=buff;
-			buff=cur;
-		}else if(*cur=='<'){
-			*cur=0;
-			if(*buff)
-				*carg++=buff;
-			*carg=0;
-			int f = open(*(carg-1),O_CREAT|O_WRONLY|O_APPEND);
-			int tmp = dup(STDOUT_FILENO);
-			dup2(f,STDOUT_FILENO);
-			parse_args(cur+1);
-			close(f);
-			dup2(tmp,STDOUT_FILENO);
-			return 0;
+		  for(;*cur==' ';*cur++=0);
+		  if(*buff)
+		    *carg++=buff;
+		  buff=cur;
+		}else if(*cur=='>'||*cur=='<'||*cur=='&'){
+		  char t=*cur;
+		  *cur=0;
+		  if(*buff)
+		    *carg++=buff;
+		  *carg++=t=='>'?">":t=='&'?"&":"<";
+		  buff=++cur;
 		}else if(*cur=='|'){
 			*cur=0;
 			if(*buff)
 				*carg++=buff;
 			*carg=0;
-			int p[2];
+			int p[2],tmp;
 			pipe(p);
 			if(fork()){
 				close(p[1]);
-				int tmp = dup(STDIN_FILENO);
+				tmp=dup(STDIN_FILENO);
 				dup2(p[0],STDIN_FILENO);
 				wait(0);
 				parse_args(cur+1);
@@ -63,9 +59,9 @@ int parse_args(char*buff){
 				close(p[0]);
 			}else{
 				close(p[0]);
-				int tmp = dup(STDOUT_FILENO);
+				tmp=dup(STDOUT_FILENO);
 				dup2(p[1],STDOUT_FILENO);
-			    execute(argv);
+				execute(argv);
 				dup2(tmp,STDOUT_FILENO);
 				close(p[1]);
 				exit(0);
