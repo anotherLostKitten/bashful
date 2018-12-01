@@ -92,8 +92,8 @@ char* input(){
                 printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
                 break;
             case '\t':
-                //preparse(decompose_dll(dll));
-                //tab autocompletion
+                preparse(dll);
+                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
                 break;
             default:
                 add_next(dll,c);

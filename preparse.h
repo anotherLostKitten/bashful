@@ -1,7 +1,6 @@
 #ifndef PREPARSE
 #define PREPARSE
 struct doubly_ll;
-char* preparse(struct doubly_ll* dll);
-char* autocomplete(char first_word_flag);
-void insert_into_dll(struct doubly_ll* dll);
+int preparse(struct doubly_ll* dll);
+int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word);
 #endif
