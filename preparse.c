@@ -23,7 +23,7 @@ int preparse(struct doubly_ll* dll){
         }
     }
     nptr = nptr->next;
-    char* word = malloc(i+1);
+    char* word = malloc(i+2);
     word[i+1] = 0;
     for(i=0;nptr!=store;nptr=nptr->next,i++)
         word[i] = nptr->c;
@@ -46,8 +46,11 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag f
             char dir2[lom+3];
             memcpy(dir2+2,word,lom);
             dir2[0] = '.',dir2[1] = '/',dir2[lom+2] = 0;
-            if(stat(dir2,&statdata)<0)
+            if(stat(dir2,&statdata)<0){
+                free(word);
+                closedir(dir);
                 return 0;
+            }
             dir = opendir(dir2);
             word = i + 1;
         }
@@ -64,5 +67,7 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag f
             break;
         }
     }
+    free(word);
+    closedir(dir);
     return 0;
 }

@@ -10,6 +10,7 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 char pwdbuff[1024];
+char* command;
 
 void chline(FILE* f,char direct,char fback){
     char c;
@@ -28,13 +29,15 @@ void chline(FILE* f,char direct,char fback){
 
 struct doubly_ll* vertical(char direct, struct doubly_ll* dll,FILE* f){
     chline(f,direct,0);
-    char command[1024];
-    fgets(command,1024,f);
+    char cmd[1024];
+    fgets(cmd,1024,f);
     fflush(stdout);
     chline(f,direct,1);
     struct doubly_ll* new = compose_dll(command);
     freeall(dll);
-    printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J",pwdbuff,decompose_dll(new));
+    command = decompose_dll(new);
+    printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J",pwdbuff,command);
+    free(command);
     return new;
 }
 
@@ -86,19 +89,27 @@ char* input(){
                 putchar('\n');
                 fseek(fs,0,SEEK_END);
                 fclose(fs);
-                return decompose_dll(dll);
+                command = decompose_dll(dll);
+                freeall(dll);
+                return command;
             case 127:
                 if(dll->length==1 || !(dll->target->prev)) continue;
                 remove_prev(dll);
-                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
+                command = decompose_dll(dll);
+                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J\033[%dD",pwdbuff,command,forward(dll));
+                free(command);
                 break;
             case '\t':
                 preparse(dll);
-                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
+                command = decompose_dll(dll);
+                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[%dD",pwdbuff,command,forward(dll));
+                free(command);
                 break;
             default:
                 add_next(dll,c);
-                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[%dD",pwdbuff,decompose_dll(dll),forward(dll));
+                command = decompose_dll(dll);
+                printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[%dD",pwdbuff,command,forward(dll));
+                free(command);                
                 break;
         }
         fflush(stdout);

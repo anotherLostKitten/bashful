@@ -14,7 +14,6 @@
 int control(){
     char pathToShellHistory[1024];
     sprintf(pathToShellHistory,"/home/%s/.shellhistory",getenv("USER"));
-    printf("\r%s \n",pathToShellHistory);
     FILE* fs = fopen(pathToShellHistory,"r");
     remove(pathToShellHistory);
     int fd = open(pathToShellHistory,O_WRONLY|O_CREAT,00600);
@@ -22,7 +21,7 @@ int control(){
     while(1){
         char pwdbuff[1024];
         getcwd(pwdbuff,1024);
-        printf(ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET,pwdbuff);
+        printf("\033[s"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET,pwdbuff);
         fflush(stdout);
         strbuff = input();
         write(fd,strbuff,strlen(strbuff));
@@ -30,6 +29,7 @@ int control(){
         if(parse_args(strbuff)){
             return 0;
         }
+        free(strbuff);
     }
 }
 

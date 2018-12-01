@@ -72,7 +72,11 @@ int forward(struct doubly_ll* self){
 
 void freeall(struct doubly_ll* self){
     while(self->target->next) self->target = self->target->next;
-    while(self->target->prev) remove_prev(self);
+    while(self->target->prev){
+        struct node* slef = self->target;
+        self->target = self->target->prev;
+        free(slef);
+    }
     free(self->target);
     free(self);
 }

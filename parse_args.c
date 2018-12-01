@@ -8,8 +8,8 @@
 
 
 int parse_args(char*buff){
-	char**carg=malloc(1024),**argv=carg,*cur=buff;
-	while(*buff){
+	char* clarg[1024],**argv=clarg,**carg=clarg,*cur=buff;
+    while(*buff){
 		if(!*cur){
 			if(*buff)
 				*carg++=buff;
@@ -26,7 +26,6 @@ int parse_args(char*buff){
 				*carg++=buff;
 			*carg=0;
 			if(execute(argv)==-1){
-			  free(argv);
 			  return -1;
 			}else
 			  return parse_args(cur+1);
