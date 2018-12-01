@@ -56,7 +56,7 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag f
     }
     int len = strlen(word);
     while(dirdata = readdir(dir)){
-        if(!strncmp(dirdata->d_name,word,len)){
+        if(!strncasecmp(dirdata->d_name,word,len)){
             char* strtoins = dirdata->d_name+len;
             for(int i = 0;strtoins[i];i++){
                 add_next(dll,strtoins[i]);

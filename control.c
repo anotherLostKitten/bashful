@@ -12,8 +12,12 @@
 
 
 int control(){
-    remove(".shellhistory");
-    int fd = open(".shellhistory",O_WRONLY|O_CREAT,00600);
+    char pathToShellHistory[1024];
+    sprintf(pathToShellHistory,"/home/%s/.shellhistory",getenv("USER"));
+    printf("\r%s \n",pathToShellHistory);
+    FILE* fs = fopen(pathToShellHistory,"r");
+    remove(pathToShellHistory);
+    int fd = open(pathToShellHistory,O_WRONLY|O_CREAT,00600);
     char* strbuff;
     while(1){
         char pwdbuff[1024];

@@ -51,13 +51,14 @@ void horizontal(int direct,struct doubly_ll* dll){
 
 char* input(){
     getcwd(pwdbuff,1024);
-    struct doubly_ll* dll = initdll();
-    struct doubly_ll* q;
-    FILE* fs = fopen(".shellhistory","r");
+    struct doubly_ll* dll = initdll(),* q;
+    char pathToShellHistory[1024];
+    sprintf(pathToShellHistory,"/home/%s/.shellhistory",getenv("USER"));
+    FILE* fs = fopen(pathToShellHistory,"r");
+    struct stat st;
+    stat(pathToShellHistory, &st);
     fseek(fs,-2,SEEK_END);
     char gone_back_flag = 0;
-    struct stat st;
-    stat(".shellhistory", &st);
     while(1){
         char c = getch();
         switch(c){
