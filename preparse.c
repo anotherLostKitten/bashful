@@ -9,10 +9,10 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word);
 
 int preparse(struct doubly_ll* dll){
     struct node* nptr = dll->target;
-    struct node* store = nptr;
+	struct node* store = nptr;
     int i = 0;
     char first_word_flag;
-    for(nptr = nptr->prev;;nptr = nptr->prev,i++){
+    for(;;nptr = nptr->prev,i++){
         if(nptr->c==' '){
             first_word_flag = 0;
             break;
@@ -22,12 +22,12 @@ int preparse(struct doubly_ll* dll){
             break;
         }
     }
-    nptr = nptr->next;
-    char* word = malloc(i+2);
-    word[i+1] = 0;
-    for(i=0;nptr!=store;nptr=nptr->next,i++)
+	nptr = nptr->next;
+	char* word = malloc(i+2);
+    for(i=0;nptr&&nptr!=store;nptr=nptr->next,i++)
         word[i] = nptr->c;
     word[i] = store->c;
+	word[i+1] = 0;
     autocomplete(dll,first_word_flag,word);
     return 0;
 }
@@ -36,9 +36,8 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag f
     DIR* dir;
     struct dirent* dirdata;
     struct stat statdata;
-    if(first_word_flag){
+    if(first_word_flag)
         dir = opendir("/bin");
-    }
     else{
         char* i;
         if(i = strrchr(word,'/')){
@@ -53,20 +52,17 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag f
             }
             dir = opendir(dir2);
             word = i + 1;
-        }
-        else
+        }else
             dir = opendir(".");
-    }
+	}
     int len = strlen(word);
-    while(dirdata = readdir(dir)){
-        if(!strncasecmp(dirdata->d_name,word,len)){
+    while(dirdata = readdir(dir))
+        if(!len||!strncasecmp(dirdata->d_name,word,len)){
             char* strtoins = dirdata->d_name+len;
-            for(int i = 0;strtoins[i];i++){
-                add_next(dll,strtoins[i]);
-            }
-            break;
-        }
-    }
+			for(int i = 0;strtoins[i];i++)
+				add_next(dll,strtoins[i]);
+			break;
+		}
     free(word);
     closedir(dir);
     return 0;
