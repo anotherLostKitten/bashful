@@ -3,21 +3,32 @@
 a shell except it's shelldon from big bang theory (bazinga)
 
 # FEATURES
-exit (95% success rate)
 
-cd (it really kind of works)
+Arbitrary command execution, plus cd and exit.
 
-executing arbitrary commands (Ain't that cool?)
+Semicolons to sequentially execute a number of commands from a single input line.
 
-I have already made a commit and push to this repo using only the shell... the only problem was that the shell does not yet understand that text within quotes is a single argument, and therefore the commit message had a lot of underlines and was ugly
+Redirection (< or > [or rather (uwu) (>o<) (owo)]) and piping (|).
+
+Ampersands at the end of a line will allow the command to run in the background.
+
+Double quotes allow you to include spaces within arguments passed into.
+
+Left and right arrow allow you to navigate backwards and forwards within the text that you have in order to insert text in the middle of what you've already typed.
 
 # ALMOST FEATURES
 
-Okay now this is epic: you can go backwards and forwards, but it doesn't really change how the text is displayed, and also backspaces are uber broken but yea.
+We broke the vertical arrow keys AND MY BABY TAB AUTOCOMPLETION how could you?
 
 # WE PRETEND THESE ARE FEATURES
 
-If you hold the enter key for too long with fast key repeat the shell segfaults.
+Holding the horizontal arrow keys for long enough can mess up the position in which the cursor appears (although this has no effect on the way text is inserted). Sometimes holding the horizontal arrow keys causes a character that is supposed to be escaped to be printed, although I don't think the root cause of this is really in our program, and this should be rectified upon any new keyboard input.
+
+When the input reaches at least 2 lines long, on any new keyboard input, all but the last line of the input will stay and a new copy of the prompt and the whole input will be printed starting from the bottom line. 
+
+Various other visual glitches (that also glitch bash so we feel no need to list them here).
+
+All of the bugs that we listed above are simply aesthetic bugs, and don't modify at all the actual input.
 
 # CONJUNCTION JUNCTION?
 
