@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "dll.h"
 
-int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word);
+DIR* autocomplete(struct doubly_ll* dll,char first_word_flag,char* word);
 
 int preparse(struct doubly_ll* dll){
     struct node* nptr = dll->target;
@@ -28,12 +28,13 @@ int preparse(struct doubly_ll* dll){
         word[i] = nptr->c;
     word[i] = store->c;
 	word[i+1] = 0;
-    autocomplete(dll,first_word_flag,word);
-    free(word);
+    DIR* idontwannacloseitinthiswaybutidontwannasegfault = autocomplete(dll,first_word_flag,word);
+    if(word) free(word);
+    if(idontwannacloseitinthiswaybutidontwannasegfault) closedir(idontwannacloseitinthiswaybutidontwannasegfault);
     return 0;
 }
 
-int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){
+DIR* autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){
     DIR* dir;
     struct dirent* dirdata;
     struct stat statdata;
@@ -46,10 +47,8 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){
             char dir2[lom+3];
             memcpy(dir2+2,word,lom);
             dir2[0] = '.',dir2[1] = '/',dir2[lom+2] = 0;
-            if(stat(dir2,&statdata)<0){
-                closedir(dir);
-                return 0;
-            }
+            if(stat(dir2,&statdata)<0)
+                return dir;
             dir = opendir(dir2);
             word = i + 1;
         }else
@@ -63,6 +62,5 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){
 				add_next(dll,strtoins[i]);
 			break;
 		}
-    closedir(dir);
-    return 0;
+    return dir;
 }
