@@ -24,7 +24,7 @@ int execute(char** argv){
         int inf = 0;
         int pid;
         char newargv = 0;
-    for(char**b=argv;*b;b++) printf("[%s]\n",*b);
+    for(char**b=argv;*b;b++) //printf("[%s]\n",*b);
         if(!strcmp(argv[argc-1],"&")){
             argv[--argc] = NULL;
             newargv = 1;

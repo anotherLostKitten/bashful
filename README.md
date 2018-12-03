@@ -8,7 +8,7 @@ Arbitrary command execution, plus cd and exit.
 
 Semicolons to sequentially execute a number of commands from a single input line.
 
-Redirection (< or > [or rather (uwu) (>o<) (owo)]) and piping (|).
+Redirection (>,<) and piping (|). Also added: >> to redirect stdout to append to a file, and 2> or 2>> to redirect stderr.
 
 Ampersands at the end of a line will allow the command to run in the background.
 

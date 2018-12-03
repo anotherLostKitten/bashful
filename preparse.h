@@ -1,7 +1,7 @@
 #ifndef PREPARSE
 #define PREPARSE
 struct doubly_ll;
-/* Simple parsing of terminal agument to determine what the currently being typed word is so as to facilitate tab autocompletion.
+/* Simple parsing of terminal argument to determine what the currently being typed word is so as to facilitate tab autocompletion.
  * dll is the doubly linked list that corresponds to the command the user has entered so far.
  */
 int preparse(struct doubly_ll* dll);
