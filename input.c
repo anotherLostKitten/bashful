@@ -18,13 +18,11 @@ void chline(FILE* f,char direct,char fback){
     if(direct){
         while(ftell(f) && getc(f)!='\n') fseek(f,-2,SEEK_CUR);
         if(fback && ftell(f)>1) fseek(f,-2,SEEK_CUR);
-    }
-    else{
+    }else
         if(!fback)
             while((c=getc(f))!='\n')
                 if(c==EOF)
                     break;
-    }
 }
 
 struct doubly_ll* vertical(char direct, struct doubly_ll* dll,FILE* f){
