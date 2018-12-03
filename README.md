@@ -26,7 +26,7 @@ Tab autocompletes commands for the first argument, and file/directory for all su
 
 # WE PRETEND THESE ARE FEATURES
 
-Holding the horizontal arrow keys for long enough can mess up the position in which the cursor appears (although this has no effect on the way text is inserted). Sometimes holding the horizontal arrow keys causes a character that is supposed to be escaped to be printed, although I don't think the root cause of this is really in our program, and this should be rectified upon any new keyboard input.
+Holding the horizontal arrow keys for long enough can mess up the position in which the cursor appears (although this has no effect on the way text is inserted). The visual bug should go away after a backspace is pressed.
 
 When the input reaches at least 2 lines long, on any new keyboard input, all but the last line of the input will stay and a new copy of the prompt and the whole input will be printed starting from the bottom line. 
 
