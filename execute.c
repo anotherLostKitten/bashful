@@ -41,8 +41,7 @@ int execute(char** argv){
 				}
 				dup2(fin,STDIN_FILENO);
 				for(int j=i;argv[j]=argv[j+2];j++);
-			}else
-				i++;		
+			}else i++;		
 		}
 
 		//for(char**b=argv;*b;b++)printf("[%s]\n",*b);

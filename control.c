@@ -24,10 +24,12 @@ int control(){
         printf("\033[s"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET,pwdbuff);
         fflush(stdout);
         strbuff = input();
-        write(fd,strbuff,strlen(strbuff));
-        write(fd,"\n",1);
-        if(parse_args(strbuff)){
-            return 0;
+        if(strlen(strbuff)){
+            write(fd,strbuff,strlen(strbuff));
+            write(fd,"\n",1);
+            if(parse_args(strbuff)){
+                return 0;
+            }
         }
         free(strbuff);
     }

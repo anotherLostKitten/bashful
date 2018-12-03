@@ -62,6 +62,7 @@ char* input(){
     stat(pathToShellHistory, &st);
     fseek(fs,-2,SEEK_END);
     char gone_back_flag = 0;
+    char down_arrow_just_pressed = 0;
     while(1){
         char c = getch();
         switch(c){
@@ -70,7 +71,8 @@ char* input(){
                     switch(getch()){
                         case 'A'://up arrow
                             if(st.st_size) dll = vertical(1,dll,fs);
-                            gone_back_flag = 1;
+                            if(down_arrow_just_pressed) dll = vertical(1,dll,fs);
+                            gone_back_flag = 1,down_arrow_just_pressed = 0;
                             break;
                         case 'D'://left arrow
                             horizontal(0,dll);
@@ -81,6 +83,7 @@ char* input(){
                         case 'B'://down arrow
                             if(gone_back_flag)
                                 dll = vertical(0,dll,fs);
+                            down_arrow_just_pressed = 1;
                             break;
                     }
                 }
