@@ -33,12 +33,19 @@ int parse_args(char*buff){
 		  if(*buff)
 		    *carg++=buff;
 		  buff=cur;
-		}else if(*cur=='>'||*cur=='<'||*cur=='&'){
+		}else if(*cur=='>'){
+		  *cur=0;
+		  if(*buff)
+		    *carg++=buff;
+          if(*(cur+1)=='>') *carg++ = ">>",cur++;
+          else *carg++ = ">";
+		  buff=++cur;
+        }else if(*cur=='<'||*cur=='&'){
 		  char t=*cur;
 		  *cur=0;
 		  if(*buff)
 		    *carg++=buff;
-		  *carg++=t=='>'?">":t=='&'?"&":"<";
+		  *carg++=t=='&'?"&":"<";
 		  buff=++cur;
 		}else if(*cur=='|'){
 			*cur=0;
