@@ -43,9 +43,9 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){
         char* i;
         if(i = strrchr(word,'/')){
             int lom = (int) (i-word);
-            char dir2[lom+3];
-            memcpy(dir2+2,word,lom);
-            dir2[0] = '.',dir2[1] = '/',dir2[lom+2] = 0;
+            char dir2[lom+1];
+            memcpy(dir2,word,lom);
+            dir2[lom] = 0;
             if(stat(dir2,&statdata)<0)
                 return 0;
             dir = opendir(dir2);
