@@ -6,7 +6,6 @@
 #include <sys/wait.h>
 #include "execute.h"
 
-
 int parse_args(char*buff){
 	char* clarg[1024],**argv=clarg,**carg=clarg,*cur=buff;
     while(*buff){
@@ -53,9 +52,10 @@ int parse_args(char*buff){
 				tmp=dup(STDIN_FILENO);
 				dup2(p[0],STDIN_FILENO);
 				wait(0);
-				parse_args(cur+1);
-				dup2(tmp,STDIN_FILENO);
+				int i = parse_args(cur+1);
+                dup2(tmp,STDIN_FILENO);
 				close(p[0]);
+                return i;
 			}else{
 				close(p[0]);
 				tmp=dup(STDOUT_FILENO);
@@ -65,7 +65,6 @@ int parse_args(char*buff){
 				close(p[1]);
 				exit(0);
 			}
-			return 0;
 		}else
 			cur++;
 	}
