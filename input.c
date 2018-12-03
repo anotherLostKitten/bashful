@@ -33,7 +33,7 @@ struct doubly_ll* vertical(char direct, struct doubly_ll* dll,FILE* f){
     fgets(cmd,1024,f);
     fflush(stdout);
     chline(f,direct,1);
-    struct doubly_ll* new = compose_dll(command);
+    struct doubly_ll* new = compose_dll(cmd);
     freeall(dll);
     command = decompose_dll(new);
     printf("\r"ANSI_COLOR_CYAN"%s"ANSI_COLOR_GREEN" shell$ "ANSI_COLOR_RESET"%s\033[J",pwdbuff,command);
