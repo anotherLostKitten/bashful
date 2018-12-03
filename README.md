@@ -12,11 +12,11 @@ Redirection (< or > [or rather (uwu) (>o<) (owo)]) and piping (|).
 
 Ampersands at the end of a line will allow the command to run in the background.
 
-Double quotes allow you to include spaces within arguments passed into.
+Double quotes allow you to treat the enclosed text as one argument, including spaces.
 
 Left and right arrow allow you to navigate backwards and forwards within the text that you have in order to insert text in the middle of what you've already typed.
 
-Up and down arrow allow you to navigate backwards and forwards through what has been previously entered.
+Up and down arrow allow you to navigate backwards and forwards through the command history, stored in /home/USER/.shellhistory
 
 Tab autocompletes commands for the first argument, and file/directory for all subsequent arguments.
 
@@ -33,8 +33,6 @@ When the input reaches at least 2 lines long, on any new keyboard input, all but
 Various other visual glitches (that also glitch bash so we feel no need to list them here).
 
 All of the bugs that we listed above are simply aesthetic bugs, and don't modify at all the actual input.
-
-With respect to tab autocompletion, it can't really understand absolute paths very well.
 
 # CONJUNCTION JUNCTION?
 
