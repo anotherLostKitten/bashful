@@ -16,9 +16,11 @@ Double quotes allow you to include spaces within arguments passed into.
 
 Left and right arrow allow you to navigate backwards and forwards within the text that you have in order to insert text in the middle of what you've already typed.
 
+Up and down arrow allow you to navigate backwards and forwards through what has been previously entered.
+
 # ALMOST FEATURES
 
-We broke the vertical arrow keys AND MY BABY TAB AUTOCOMPLETION how could you?
+
 
 # WE PRETEND THESE ARE FEATURES
 
@@ -29,6 +31,10 @@ When the input reaches at least 2 lines long, on any new keyboard input, all but
 Various other visual glitches (that also glitch bash so we feel no need to list them here).
 
 All of the bugs that we listed above are simply aesthetic bugs, and don't modify at all the actual input.
+
+One strange bug is that after pressing the down arrow once, you have to press the up arrow twice to go up once. But after the up arrow is pressed twice, it goes back to normal where one up = one navigation.
+
+Also having to do with vertical arrrows, a blank line with nothing on it prevents our shell from being able to continue using the down arrow through it, but the up arrow works fine. This can cause you to get "stuck" above a certain blank lines, and you'd have to press enter to reset it.
 
 # CONJUNCTION JUNCTION?
 
