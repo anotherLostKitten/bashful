@@ -18,6 +18,8 @@ Left and right arrow allow you to navigate backwards and forwards within the tex
 
 Up and down arrow allow you to navigate backwards and forwards through what has been previously entered.
 
+Tab autocompletes commands for the first argument, and file/directory for all subsequent arguments.
+
 # ALMOST FEATURES
 
 
@@ -35,6 +37,8 @@ All of the bugs that we listed above are simply aesthetic bugs, and don't modify
 One strange bug is that after pressing the down arrow once, you have to press the up arrow twice to go up once. But after the up arrow is pressed twice, it goes back to normal where one up = one navigation.
 
 Also having to do with vertical arrrows, a blank line with nothing on it prevents our shell from being able to continue using the down arrow through it, but the up arrow works fine. This can cause you to get "stuck" above a certain blank lines, and you'd have to press enter to reset it.
+
+With respect to tab autocompletion, it can't really understand absolute paths very well.
 
 # CONJUNCTION JUNCTION?
 
