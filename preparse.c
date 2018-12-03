@@ -29,10 +29,11 @@ int preparse(struct doubly_ll* dll){
     word[i] = store->c;
 	word[i+1] = 0;
     autocomplete(dll,first_word_flag,word);
+    free(word);
     return 0;
 }
 
-int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag for whether it is the first word argument, could be calculated in preparse maybe?
+int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){
     DIR* dir;
     struct dirent* dirdata;
     struct stat statdata;
@@ -46,7 +47,6 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag f
             memcpy(dir2+2,word,lom);
             dir2[0] = '.',dir2[1] = '/',dir2[lom+2] = 0;
             if(stat(dir2,&statdata)<0){
-                free(word);
                 closedir(dir);
                 return 0;
             }
@@ -63,7 +63,6 @@ int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word){//flag f
 				add_next(dll,strtoins[i]);
 			break;
 		}
-    free(word);
     closedir(dir);
     return 0;
 }
