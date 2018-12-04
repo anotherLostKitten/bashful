@@ -22,7 +22,9 @@ Tab autocompletes commands for the first argument, and file/directory for all su
 
 # ALMOST FEATURES
 
+We tried to add better tab autocompletion.
 
+We were going to add ampersand redirects but we decided against it.
 
 # WE PRETEND THESE ARE FEATURES
 
