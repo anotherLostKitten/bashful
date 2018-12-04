@@ -57,7 +57,8 @@ int control();
 Main control loop for running terminal.
 Runs a loop until exit is called, in which case returns zero.
 
-## dll.h This doubly linked list represents the text that is input into the terminal until enter is pressed. This was a necessary way to represent the text in order to properly implement arrow key support, insertion in the middle of the string, and tab autocompletion. 
+## dll.h
+This doubly linked list represents the text that is input into the terminal until enter is pressed. This was a necessary way to represent the text in order to properly implement arrow key support, insertion in the middle of the string, and tab autocompletion. 
 
 ```c
 struct node{
