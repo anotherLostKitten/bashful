@@ -195,5 +195,5 @@ dll is the doubly linked list that corresponds to the command the user has enter
 int autocomplete(struct doubly_ll* dll,char first_word_flag,char* word);
 ```
 
-Adds to the doubly linked list the value of the first entry in the current directory (/ for first argumend or cwd otherwise) whose beginning matches word.
-dll is the doubly linked list of the current terminal entry, first_word_flag denotes whether direcory used should be / or cwd, and word is the word that would be autocompleted.
+Adds to the doubly linked list the value of the first entry in the current directory (/bin for first argument or cwd otherwise) whose beginning matches word.
+dll is the doubly linked list of the current terminal entry, first_word_flag denotes whether direcory used should be /bin or cwd, and word is the word that would be autocompleted.
